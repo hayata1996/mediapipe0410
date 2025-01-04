@@ -15,10 +15,13 @@ hands = mp_hands.Hands(
 cap = cv2.VideoCapture(0)
 
 # FaceMeshの設定
+# リソースを使い終わったら自動的にリリースできるようにコンテキストマネージャを使用する
 with mp_face_mesh.FaceMesh(
     min_detection_confidence=0.5,
-    min_tracking_confidence=0.5) as face_mesh:
+    min_tracking_confidence=0.5,
+) as face_mesh:
 
+    # while True:
     while cap.isOpened():
         success, image = cap.read()
         if not success:
@@ -54,7 +57,8 @@ with mp_face_mesh.FaceMesh(
 
         # 画像を表示
         cv2.imshow('MediaPipe FaceMesh on Black Background', background)
-        if cv2.waitKey(5) & 0xFF == 27:
+        # "q"を押すと終了
+        if cv2.waitKey(10) & 0xFF == ord('q'):
             break
 
 cap.release()
